@@ -1,4 +1,5 @@
-(import [pytz])
+(import [pytz]
+        [trytond.pool [Pool]])
 
 (setv TIMEZONES  (list-comp (, x x)  [x pytz.common_timezones]))
 
@@ -11,5 +12,7 @@
 
 
 (defn default-date []
-  (setv Date (.get Pool "ir.date"))
+  (setv Date (.get (Pool) "ir.date"))
   (.today Date))
+
+
