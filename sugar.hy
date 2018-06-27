@@ -1,5 +1,3 @@
-
-
 (defmacro default [field args &rest body]
   `(with-decorator classmethod
      (defn ~(HySymbol (+ "default_" (name field)))
@@ -13,3 +11,4 @@
   `(with-decorator classmethod
      (defn ~(HySymbol (+ "default_" (name field))) [cls &rest args]
        (~function #* args))))
+
