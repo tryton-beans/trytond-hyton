@@ -6,13 +6,15 @@
 
 (defn create-random-str [letters size]
   (setv l (len letters))
-  (reduce + (take size (repeatedly (fn [] (get letters (dec (random.randint 1 l))))))))
+  (reduce +
+          (take size
+                (repeatedly
+                  (fn [] (get letters (dec (random.randint 1 l))))))))
 
 (defn create-id [&optional [size 8]]
   ;; some the letters/numbers that get confussed removed
-  ;; 0 O 1 I
+  ;; 0 O 1
   (create-random-str "23456879ABCDEFGHJKLMNPRSTUVWXYZ" size))
-
 
 (defn get-new-id [model field &optional [size 8]]
   (setv TheModel (.get (Pool) model)
