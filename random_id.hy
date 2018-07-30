@@ -1,8 +1,6 @@
 (import [trytond.model [ModelSQL ModelView fields]]
         [trytond.pool [Pool]]
-        [random])
-
-
+        random)
 
 (defn create-random-str [letters size]
   (setv l (len letters))

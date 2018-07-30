@@ -18,5 +18,3 @@
 
 (defn datetime-now []
   (datetime.datetime.now))
-
-
