@@ -44,7 +44,7 @@
      (defn search-rec-name [cls name clauses]
        (rec-name-search-fields ~fields clauses))))
 
-(defmacro create-fn-values [cls f-values]
+(defmacro create-fn-values [f-values]
   `(with-decorator classmethod
      (defn create [cls vlist]
        (setv c-vlist 
