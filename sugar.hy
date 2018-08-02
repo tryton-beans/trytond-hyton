@@ -51,5 +51,5 @@
              (lfor x vlist (.copy x))
              )
        (for [values c-vlist] (~f-values values))
-       (.create (super ~cls cls) c-vlist)
+       (.create (super) c-vlist)
        )))

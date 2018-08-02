@@ -1,8 +1,8 @@
-(import [datetime]
-        [pytz]
+(import datetime
+        pytz
         [trytond.pool [Pool]])
 
-(setv TIMEZONES  (list-comp (, x x)  [x pytz.common_timezones]))
+(setv TIMEZONES  (lfor x pytz.common_timezones (, x x)))
 
 (defn timezones []
   TIMEZONES)
