@@ -44,12 +44,12 @@
      (defn search-rec-name [cls name clauses]
        (rec-name-search-fields ~fields clauses))))
 
-(defmacro create [f-values]
+(defmacro create-fn-values [cls f-values]
   `(with-decorator classmethod
      (defn create [cls vlist]
        (setv c-vlist 
              (lfor x vlist (.copy x))
              )
        (for [values c-vlist] (~f-values values))
-       (.create (super Shipment cls) c-vlist)
+       (.create (super ~cls cls) c-vlist)
        )))
