@@ -4,4 +4,4 @@ except ImportError:
     from .test_hyton import suite
 
 __all__ = ['suite']
-print 'lala'
+
