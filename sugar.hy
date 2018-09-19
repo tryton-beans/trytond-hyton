@@ -47,7 +47,7 @@
 (defmacro create-fn-values [f-values]
   `(with-decorator classmethod
      (defn create [cls vlist]
-       (setv c-vlist 
+       (setv c-vlist
              (lfor x vlist (.copy x))
              )
        (for [values c-vlist] (~f-values values))
