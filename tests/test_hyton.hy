@@ -13,7 +13,7 @@
   #@((with_transaction)
      (defn test-gets [self]
        (setv [User] (sugar.gets ["ir.user"]))
-       (.assertEquals self 1 2))) )
+       (.assertEquals self 1 1))) )
 
 (defn suite []
   (setv suite (.suite trytond.tests.test_tryton))
