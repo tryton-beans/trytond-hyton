@@ -53,3 +53,24 @@
        (for [values c-vlist] (~f-values values))
        (.create (super) c-vlist)
        )))
+
+;; it has defensive copy is it really needed?
+(defmacro on-create [fn-values fn-record]
+  `(with-decorator classmethod
+     (defn create [cls vlist]
+       (setv c-vlist
+             (lfor x vlist (.copy x))
+             )
+       (for [values c-vlist] (~fn-values values))
+       (setv ret (.create (super) c-vlist))
+       (for [o ret] (~fn-record o))
+       ret)))
+
+;; should it have defensive copy?
+(defmacro on-write [fn]
+`(with-decorator classmethod
+     (defn write [cls records values &rest args]
+        (for [o records] (~fn o values))
+        (for [o (->> (partition args 2) (list))]
+          (for [r (first o)] (~fn r (second o))))
+        (.write (super) records values #* args))))
