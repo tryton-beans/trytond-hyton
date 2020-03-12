@@ -4,7 +4,7 @@
 (defmacro default [field args &rest body]
   `(with-decorator classmethod
      (defn ~(HySymbol (default-func-name (name field)))
-       ~(+ [(HySymbol "cls")] args) ~@body)))
+       ~(+ [(HySymbol "cls")] (list args)) ~@body)))
 
 (defmacro default-value [field value]
   `(with-decorator classmethod
