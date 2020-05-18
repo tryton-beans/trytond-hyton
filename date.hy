@@ -1,5 +1,6 @@
 (import datetime
         pytz
+        [trytond.model [fields]]
         [trytond.pool [Pool]])
 
 (setv TIMEZONES  (lfor x pytz.common_timezones (, x x)))
@@ -18,3 +19,8 @@
 
 (defn datetime-now []
   (datetime.datetime.now))
+
+
+(defclass DateBoundMixin []
+  (setv start-date (.Date fields "Start Date" :required True)
+        end-date (.Date fields "End Date")))

@@ -1,19 +1,20 @@
 (import
-  unitest
+  unittest
   doctest
   trytond.tests.test_tryton
-  [trytond.test.test_tryton [ModuleTestCase with_transaction]]
+  [trytond.tests.test_tryton [ModuleTestCase with_transaction]]
+  [trytond.modules.hyton.sugar [gets]]
   [trytond.pool [Pool]])
 
 (defclass HytonTestCase [ModuleTestCase]
   "Test Hyton"
-  [module "hyton"]
+  (setv module "hyton")
 
 
   #@((with_transaction)
      (defn test-gets [self]
-       (setv [User] (sugar.gets ["ir.user"]))
-       (.assertEquals self 1 1))) )
+       (setv [User] (gets (Pool) ["res.user"]))
+       (.assertEqual self 1 1))) )
 
 (defn suite []
   (setv suite (.suite trytond.tests.test_tryton))
