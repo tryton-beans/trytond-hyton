@@ -20,3 +20,8 @@
   (while (not (empty? (.search TheModel [(, field "=" new-identifier)])))
     (setv new-identifier (create-id size)))
   new-identifier)
+
+(defn add-identifier [values key-identifier &optional [size 8]]
+  (setv identifier (try (get values "identifier") (except [KeyError] None)))
+      (when (or (none? identifier) (= "" identifier))
+        (assoc values "identifier" (get-new-id key-identifier "identifier" size))))

@@ -8,4 +8,5 @@
 (defn calculate-percentage [percentage value]
   (/ (* value percentage) (Decimal "100")))
 
+(defn not-none? [x] (not (none? x)))
 

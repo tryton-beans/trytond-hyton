@@ -32,6 +32,21 @@
         (date-first-day-month)
         (- (timedelta :days 1)))))
 
+(defn plus-days [dt-time days]
+  (+ dt-time (timedelta :days days)))
+
+(defn next-day [dt-time]
+  (plus-days dt-time 1))
+
+(defn skip-weekend [dt-time]
+  (setv wkday (.weekday dt-time))
+  (if (or(= wkday 5) (= wkday 6))
+      (skip-weekend (next-day dt-time))
+      dt-time))
+
+(defn plus-days-weekday [dt-time days]
+  (skip-weekend (plus-days dt-time days)))
+
 (defclass DateBoundMixin []
   (setv start-date (.Date fields "Start Date" :required True)
         end-date (.Date fields "End Date")))
