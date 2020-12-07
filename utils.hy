@@ -10,3 +10,8 @@
 
 (defn not-none? [x] (not (none? x)))
 
+(defn get-or-none [map key]
+  (try (get map key) (except [KeyError] None)))
+
+(defn str-not-empty? [s]
+  (and s (not (empty? (.strip s)))))
