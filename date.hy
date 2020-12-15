@@ -32,6 +32,13 @@
         (date-first-day-month)
         (- (timedelta :days 1)))))
 
+(defn date-first-day-year [date]
+  (.replace (.replace date :day 1) :month 1)
+  )
+
+(defn date-first-day-current-year []
+  (.replace (.replace (datetime.date.today) :day 1) :month 1))
+
 (defn plus-days [dt-time days]
   (+ dt-time (timedelta :days days)))
 
