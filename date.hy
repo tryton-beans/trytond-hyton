@@ -28,8 +28,9 @@
   (if (= 12 date.month)
       (.replace date :day 31);;december
       (->
-        (.replace date :month (inc month))
+        date
         (date-first-day-month)
+        (.replace :month (inc month))
         (- (timedelta :days 1)))))
 
 (defn date-first-day-year [date]
