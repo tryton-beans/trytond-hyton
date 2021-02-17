@@ -6,7 +6,7 @@
 (defclass NoCompanyStates []
   "State when the company field is not the current users"
   (setv READONLY {"readonly"
-                       (And (Bool (Eval "company"))
+                  (And (Bool (Eval "company"))
                             (Not (Equal (Eval "company")
                                         (Get (Eval "context" {}) "company" "0")
                                 )))}
@@ -18,3 +18,6 @@
 
 (setv IMMUTABLE {"readonly"
                  (Greater (Eval "id" 0) 0)})
+
+
+
