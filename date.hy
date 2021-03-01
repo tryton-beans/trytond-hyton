@@ -58,3 +58,8 @@
 (defclass DateBoundMixin []
   (setv start-date (.Date fields "Start Date" :required True)
         end-date (.Date fields "End Date")))
+
+(defn date-next-weekday [date weekday]
+  (setv day-gap (- (int weekday) (date.weekday))
+        forward-day-gap (if (neg? day-gap) (+ 7 day-gap) day-gap))
+  (+ date (timedelta :days forward-day-gap)))

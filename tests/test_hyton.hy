@@ -5,7 +5,7 @@
   trytond.tests.test_tryton
   [trytond.tests.test_tryton [ModuleTestCase with_transaction]]
   [trytond.modules.hyton.sugar [gets]]
-  [trytond.modules.hyton.date [date-last-day-month]]
+  [trytond.modules.hyton.date [date-last-day-month date-next-weekday]]
   [trytond.modules.hyton [common-fields]]
   [trytond [pyson]]
   [trytond.pool [Pool]])
@@ -19,6 +19,24 @@
        (setv [User] (gets (Pool) ["res.user"]))
        (.assertEqual self 1 1)))
 
+  #@((with_transaction)
+      (defn test-next-day-of-week [self]
+        ;;4 -> Friday
+        (.assertEqual self
+                      (date-next-weekday (datetime.date 2021 2 1) 4)
+                      (datetime.date 2021 2 5))
+        ;;works with string as well.
+        (.assertEqual self
+                      (date-next-weekday (datetime.date 2021 2 1) "4")
+                      (datetime.date 2021 2 5))
+        (.assertEqual self
+                      (date-next-weekday (datetime.date 2021 2 6) "4")
+                      (datetime.date 2021 2 12))
+        (.assertEquals (. (datetime.date 2021 2 12) weekday) 4)
+        (.assertEqual self
+                      (date-next-weekday (datetime.date 2021 2 1) 0)
+                      (datetime.date 2021 2 1))))
+  
   #@((with_transaction)
       (defn test-last-day-month-2021-1-29-fix [self]
         (.assertEqual self
