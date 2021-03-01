@@ -25,14 +25,19 @@
   
   (default-value closed False)
 
-  (defn on-close [self] True)  
-  (defn close [self]
-    (when (on-close self)
+  (defn can-close [self]
+    True)
+  
+  (defn -close [self]
+    (when (.can-close self)
       (setv self.closed True)
       True))
 
-  (defn on-open [self] True)  
-  (defn open [self]
-    (when (on-open self)
+  
+  (defn can-open [self]
+    True)
+  
+  (defn -open [self]
+    (when (.can-open self)
       (setv self.closed False)
       True)))
