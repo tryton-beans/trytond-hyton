@@ -63,3 +63,9 @@
   (setv day-gap (- (int weekday) (date.weekday))
         forward-day-gap (if (neg? day-gap) (+ 7 day-gap) day-gap))
   (+ date (timedelta :days forward-day-gap)))
+
+(defn date-next-day-of-month [date day-of-month]
+  (if (<= date.day day-of-month)
+      (.replace date :day day-of-month)
+      (date-next-day-of-month (plus-days (date-last-day-month date) 1) day-of-month)
+      ))
