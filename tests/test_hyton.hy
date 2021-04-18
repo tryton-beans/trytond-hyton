@@ -32,7 +32,7 @@
         (.assertEqual self
                       (date-next-weekday (datetime.date 2021 2 6) "4")
                       (datetime.date 2021 2 12))
-        (.assertEquals (. (datetime.date 2021 2 12) weekday) 4)
+        (.assertEqual self (.weekday (datetime.date 2021 2 12)) 4)
         (.assertEqual self
                       (date-next-weekday (datetime.date 2021 2 1) 0)
                       (datetime.date 2021 2 1))))
