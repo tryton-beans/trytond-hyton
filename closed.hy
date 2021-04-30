@@ -11,7 +11,7 @@
 
 (defclass Closeable []
   (setv
-    closed (.Boolean fields "Closed" :select True))
+    closed (.Boolean fields "Closed" :select True :readonly True))
 
   #@(classmethod
       (defn readonly-closed-setup [cls]
