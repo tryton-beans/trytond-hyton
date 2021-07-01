@@ -18,3 +18,20 @@
 
 (defn str-not-empty? [s]
   (and s (not (empty? (.strip s)))))
+
+(defn evently-divide [dividend-decimal divisor-int decimal-min-value]
+  (setv
+    total-amount (.quantize dividend-decimal decimal-min-value)
+    low-amount (.quantize
+                 (/ total-amount divisor-int)
+                 decimal-min-value decimal.ROUND_DOWN)
+    high-amount (+ low-amount decimal-min-value)
+    num-highs (%
+                (int (* total-amount (/ 1 decimal-min-value)))
+                divisor-int
+                )
+    num-lows (- divisor-int num-highs)
+    )
+  (+ (list (repeat high-amount num-highs))
+     (list (repeat low-amount num-lows)))
+  )
