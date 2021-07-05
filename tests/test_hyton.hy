@@ -3,10 +3,12 @@
   datetime
   doctest
   trytond.tests.test_tryton
+  [decimal [Decimal]]
   [trytond.tests.test_tryton [ModuleTestCase with_transaction]]
   [trytond.modules.hyton.sugar [gets]]
   [trytond.modules.hyton.date [date-last-day-month date-next-weekday]]
   [trytond.modules.hyton [common-fields]]
+  [trytond.modules.hyton.utils [evently-divide evently-divide-portions]]
   [trytond [pyson]]
   [trytond.pool [Pool]])
 
@@ -91,7 +93,38 @@
                           True
                           ) states)
                       {"readonly" (pyson.And True True)}
-                      ))))
+                      )))
+  
+  #@((with-transaction)
+      (defn test-evently-divide [self]
+        (.assertEqual self
+                      (evently-divide (Decimal "0.11") 2 (Decimal "0.01"))
+                      [(Decimal "0.06") (Decimal "0.05")]
+                      )
+
+        (.assertEqual self
+                      (evently-divide (Decimal "0.11") 3 (Decimal "0.01"))
+                      [(Decimal "0.04")
+                       (Decimal "0.04")
+                       (Decimal "0.03")]
+                      )
+
+        (.assertEqual self
+                      (evently-divide (Decimal "-0.11") 3 (Decimal "0.01"))
+                      [(Decimal "-0.04")
+                       (Decimal "-0.04")
+                       (Decimal "-0.03")]
+                      )
+        
+        (.assertEqual self
+                      (evently-divide (Decimal "-0") 3 (Decimal "0.01"))
+                      [(Decimal "0.00")
+                       (Decimal "0.00")
+                       (Decimal "0.00")]
+                      )))
+  )
+
+
 
 (defn suite []
   (setv suite (.suite trytond.tests.test_tryton))

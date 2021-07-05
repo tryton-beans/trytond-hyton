@@ -21,7 +21,7 @@
 
 (defn evently-divide [dividend-decimal divisor-int decimal-min-value]
   (setv
-    total-amount (.quantize dividend-decimal decimal-min-value)
+    total-amount (.quantize (abs dividend-decimal) decimal-min-value)
     low-amount (.quantize
                  (/ total-amount divisor-int)
                  decimal-min-value decimal.ROUND_DOWN)
@@ -31,7 +31,31 @@
                 divisor-int
                 )
     num-lows (- divisor-int num-highs)
+    dividend-decimal-fn (if (pos? dividend-decimal) + -)
+    high-amount (dividend-decimal-fn high-amount)
+    low-amount (dividend-decimal-fn low-amount)
     )
   (+ (list (repeat high-amount num-highs))
      (list (repeat low-amount num-lows)))
+  )
+
+
+(defn evently-divide-portions [value portions decimal-min-value]
+  (setv total-portions (reduce + portions)
+        values (list (map
+                      (fn [portion]
+                        (.quantize 
+                          (/ (* value portion) total-portions)
+                          decimal-min-value
+                          decimal.ROUND_DOWN)
+                        )
+                      portions))
+        diff (- value (reduce + values))
+        )
+  (if (zero? diff)
+      values
+      (do
+        (list
+          (map + values
+               (evently-divide value (len values) decimal-min-value)))))
   )
