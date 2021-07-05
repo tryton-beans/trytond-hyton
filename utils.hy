@@ -59,3 +59,8 @@
           (map + values
                (evently-divide diff (len values) decimal-min-value)))))
   )
+
+(defn c-group-by [fn iter]
+  (group-by
+    (sorted iter :key fn)
+    :key fn))
