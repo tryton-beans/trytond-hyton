@@ -57,5 +57,5 @@
       (do
         (list
           (map + values
-               (evently-divide value (len values) decimal-min-value)))))
+               (evently-divide diff (len values) decimal-min-value)))))
   )

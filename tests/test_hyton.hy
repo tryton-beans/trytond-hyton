@@ -122,6 +122,31 @@
                        (Decimal "0.00")
                        (Decimal "0.00")]
                       )))
+  
+  #@((with-transaction)
+      (defn test-evently-divide-portions [self]
+        (.assertEqual self
+                      (evently-divide-portions (Decimal "0.10") [(Decimal "4") (Decimal "6")] (Decimal "0.01"))
+                      [(Decimal "0.04") (Decimal "0.06")]
+                      )
+        (.assertEqual self
+                      (evently-divide-portions (Decimal "0.11") [(Decimal "1") (Decimal "1")] (Decimal "0.01"))
+                      [(Decimal "0.06") (Decimal "0.05")]
+                      )
+
+        (.assertEqual self
+                      (evently-divide-portions (Decimal "-0.10") [(Decimal "4") (Decimal "6")] (Decimal "0.01"))
+                      [(Decimal "-0.04") (Decimal "-0.06")]
+                      )
+        (.assertEqual self
+                      (evently-divide-portions (Decimal "-0.11") [(Decimal "1") (Decimal "1")] (Decimal "0.01"))
+                      [(Decimal "-0.06") (Decimal "-0.05")]
+                      )
+
+        (.assertEqual self
+                      (evently-divide-portions (Decimal "-0.11") [(Decimal "1") (Decimal "0")] (Decimal "0.01"))
+                      [(Decimal "-0.11") (Decimal "0")]
+                      )))
   )
 
 
