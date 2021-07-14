@@ -8,3 +8,6 @@
 (defn create-save-model [model-name &rest args &kwargs kwargs]
   (save
     (create-model model-name #* args #** kwargs)))
+
+(defn reload-model [model]
+  ((.get (Pool) model.--name--) model.id))
