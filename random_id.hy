@@ -12,7 +12,7 @@
 (defn create-id [&optional [size 8]]
   ;; some the letters/numbers that get confussed removed
   ;; 0 O 1
-  (create-random-str "23456879ABCDEFGHJKLMNPRSTUVWXYZ" size))
+  (create-random-str "23456879ABCDEFGHJKLMNPQRSTUVWXYZ" size))
 
 (defn get-new-id [model field &optional [size 8]]
   (setv TheModel (.get (Pool) model)
