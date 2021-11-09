@@ -1,5 +1,5 @@
 (import [trytond.model [fields]]
-        [trytond.modules.hyton.utils [evently-divide evently-divide-portions]]
+        [trytond.modules.hyton.utils [evently-divide evently-divide-portions quantize-euros calculate-percentage]]
         [decimal [Decimal]]
         decimal)
 
@@ -12,3 +12,6 @@
 (defn evently-divide-portions-money [money portions]
   (evently-divide-portions money portions (Decimal "0.01")))
 
+(defn calculate-percentage-money [money percentatge]
+  (quantize-euros (calculate-percentage money percentatge))
+  )
