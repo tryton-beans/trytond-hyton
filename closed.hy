@@ -1,5 +1,5 @@
 (import inspect
-        [trytond.model [fields]]
+        [trytond.model [Model fields]]
         [trytond.model.fields [Field]]
         [trytond.pyson [Equal Eval]]
         [trytond.modules.hyton.common-fields [add-readonly add-depends]])
@@ -10,9 +10,8 @@
   (Equal (Eval "closed" False) True))
 
 ;;TODO maybe rename to CloseableMixin
-(defclass Closeable [object]
+(defclass Closeable [Model]
   (setv
-    --slots-- (, )
     closed (.Boolean fields "Closed" :select True :readonly True))
 
   #@(classmethod

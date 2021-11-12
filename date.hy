@@ -1,7 +1,7 @@
 (import datetime
         pytz
         [datetime [timedelta]]
-        [trytond.model [fields]]
+        [trytond.model [fields Model]]
         [trytond.pool [Pool]])
 
 (setv TIMEZONES  (lfor x pytz.common_timezones (, x x)))
@@ -55,9 +55,8 @@
 (defn plus-days-weekday [dt-time days]
   (skip-weekend (plus-days dt-time days)))
 
-(defclass DateBoundMixin [object]
+(defclass DateBoundMixin [Model]
   (setv
-    --slots-- (, )
     start-date (.Date fields "Start Date" :required True)
     end-date (.Date fields "End Date")))
 
