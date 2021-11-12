@@ -55,9 +55,11 @@
 (defn plus-days-weekday [dt-time days]
   (skip-weekend (plus-days dt-time days)))
 
-(defclass DateBoundMixin []
-  (setv start-date (.Date fields "Start Date" :required True)
-        end-date (.Date fields "End Date")))
+(defclass DateBoundMixin [object]
+  (setv
+    --slots-- (, )
+    start-date (.Date fields "Start Date" :required True)
+    end-date (.Date fields "End Date")))
 
 (defn date-next-weekday [date weekday]
   (setv day-gap (- (int weekday) (date.weekday))

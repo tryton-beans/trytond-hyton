@@ -9,8 +9,10 @@
 (setv -close-readonly-statement 
   (Equal (Eval "closed" False) True))
 
-(defclass Closeable []
+;;TODO maybe rename to CloseableMixin
+(defclass Closeable [object]
   (setv
+    --slots-- (, )
     closed (.Boolean fields "Closed" :select True :readonly True))
 
   #@(classmethod
