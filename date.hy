@@ -1,4 +1,5 @@
 (import datetime
+        time
         pytz
         [datetime [timedelta]]
         [trytond.model [fields Model]]
@@ -70,3 +71,9 @@
       (.replace date :day day-of-month)
       (date-next-day-of-month (plus-days (date-last-day-month date) 1) day-of-month)
       ))
+
+;; it includes date in locale and unix time up to seconds.
+(defn dt-str4bots [&optional [sep "-"]]
+  (+ (.strftime (datetime.datetime.now) "%Y%m%H%M%S")
+     sep
+     (str (int (time.time)))))
