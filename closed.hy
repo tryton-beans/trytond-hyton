@@ -9,6 +9,15 @@
 (setv -close-readonly-statement 
   (Equal (Eval "closed" False) True))
 
+(defn readonly-closed-setup [class]
+        (for [field (->> class
+                         (inspect.getmembers)
+                         (map second)
+                         (filter (fn[m] (isinstance m Field))))]
+          (add-depends 
+            (add-readonly field -close-readonly-statement)
+            ["closed"])))
+
 ;;TODO maybe rename to CloseableMixin
 (defclass Closeable [Model]
   (setv
