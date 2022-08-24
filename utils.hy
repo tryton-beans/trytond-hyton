@@ -22,6 +22,9 @@
 (defn str-not-empty? [s]
   (not (str-empty? s)))
 
+(defn less-caps [a-string]
+  (.join " " (map (fn [s] (if (= s (.lower s)) s (.capitalize s))) (.split a-string))))
+
 (defn evently-divide [dividend-decimal divisor-int decimal-min-value]
   (setv
     total-amount (.quantize (abs dividend-decimal) decimal-min-value)
