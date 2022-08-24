@@ -16,8 +16,11 @@
 (defn get-or-none [map key]
   (get-or map key None))
 
+(defn str-empty? [s]
+  (or (none? s) (empty? (.strip s))))
+
 (defn str-not-empty? [s]
-  (and s (not (empty? (.strip s)))))
+  (not (str-empty? s)))
 
 (defn evently-divide [dividend-decimal divisor-int decimal-min-value]
   (setv

@@ -8,7 +8,7 @@
   [trytond.modules.hyton.sugar [gets]]
   [trytond.modules.hyton.date [date-last-day-month date-next-weekday]]
   [trytond.modules.hyton [common-fields]]
-  [trytond.modules.hyton.utils [evently-divide evently-divide-portions c-group-by]]
+  [trytond.modules.hyton.utils [evently-divide evently-divide-portions c-group-by str-empty? str-not-empty?]]
   [trytond [pyson]]
   [trytond.pool [Pool]])
 
@@ -95,6 +95,16 @@
                       {"readonly" (pyson.And True True)}
                       )))
 
+
+  (defn test-str-empty [self]
+    (.assertTrue self (str-empty? None))
+    (.assertTrue self (str-empty? ""))
+    (.assertTrue self (str-empty? "  "))
+    (.assertFalse self (str-not-empty? "  "))
+    (.assertTrue self (str-not-empty? " h "))
+    )
+  
+  
   (defn test-c-group-by [self]
     (.assertEqual self (len (list (group-by [1 2 3 4] even?))) 4)
     (.assertEqual self (len (list (c-group-by even? [1 2 3 4]))) 2))
