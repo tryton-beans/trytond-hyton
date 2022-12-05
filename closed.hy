@@ -1,9 +1,9 @@
 (import inspect
-        [trytond.model [Model fields]]
-        [trytond.model.fields [Field]]
-        [trytond.pyson [Equal Eval]]
-        [trytond.modules.hyton.common-fields [add-readonly add-depends]])
-(require [trytond.modules.hyton.sugar [default-value]])
+        trytond.model [Model fields]
+        trytond.model.fields [Field]
+        trytond.pyson [Equal Eval]
+        trytond.modules.hyton.common-fields [add-readonly add-depends])
+(require trytond.modules.hyton.sugar [default-value])
 
 
 (setv -close-readonly-statement 
@@ -23,15 +23,14 @@
   (setv
     closed (.Boolean fields "Closed" :select True :readonly True))
 
-  #@(classmethod
-      (defn readonly-closed-setup [cls]
-        (for [field (->> cls
-                         (inspect.getmembers)
-                         (map second)
-                         (filter (fn[m] (isinstance m Field))))]
-          (add-depends 
-            (add-readonly field -close-readonly-statement)
-            ["closed"]))))
+  (defn [classmethod] readonly-closed-setup [cls]
+    (for [field (->> cls
+                     (inspect.getmembers)
+                     (map second)
+                     (filter (fn[m] (isinstance m Field))))]
+      (add-depends 
+        (add-readonly field -close-readonly-statement)
+        ["closed"])))
   
   (default-value closed False)
 

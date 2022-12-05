@@ -1,6 +1,10 @@
-(import [trytond.model [ModelSQL ModelView fields]]
-        [trytond.pool [Pool]]
+(import trytond.model [ModelSQL ModelView fields]
+        trytond.pool [Pool]
+        functools [reduce]
+        trytond.modules.hyton.utils [none? empty?]
+        hy.pyops *
         random)
+(require hyrule [assoc])
 
 (defn create-random-str [letters size]
   (setv l (len letters))
