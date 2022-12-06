@@ -12,6 +12,15 @@
   "Check if `coll` is empty."
   (= 0 (len coll)))
 
+(defn first [coll]
+  "Return first item from `coll`."
+  (next (iter coll) None))
+
+(defn some [pred coll]
+  "Return the first logical true value of applying `pred` in `coll`, else None."
+  (first (filter None (map pred coll))))
+
+
 (defn quantize-euros[d]
   (when (not (none? d))
     (.quantize d (decimal.Decimal "0.01") decimal.ROUND_HALF_UP)))

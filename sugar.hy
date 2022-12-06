@@ -1,4 +1,8 @@
-(import hy.models [Symbol])
+(import hy.models [Symbol]
+        trytond.modules.hyton.utils [first]
+        hyrule [rest]
+        cytoolz [second partition])
+(require hyrule [->>])
 
 (defn default-func-name [name]
   (+ "default_" (.replace name "-" "_")))
@@ -64,6 +68,6 @@
 (defmacro on-write [fn]
   `(defn [classmethod] write [cls records values #* args]
      (for [o records] (~fn o values))
-     (for [o (->> (partition args 2) (list))]
+     (for [o (list (partition 2 args))]
        (for [r (first o)] (~fn r (second o))))
      (.write (super) records values #* args)))

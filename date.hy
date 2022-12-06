@@ -3,7 +3,9 @@
         pytz
         datetime [timedelta]
         trytond.model [fields Model]
-        trytond.pool [Pool])
+        trytond.pool [Pool]
+        trytond.modules.hyton.utils [first]
+        cytoolz [second])
 (require hyrule [->])
 
 (setv TIMEZONES  (lfor x pytz.common_timezones #(x x)))
@@ -74,7 +76,7 @@
       ))
 
 ;; it includes date in locale and unix time up to seconds.
-(defn dt-str4bots [&optional [sep "-"]]
+(defn dt-str4bots [[sep "-"]]
   (+ (.strftime (datetime.datetime.now) "%Y%m%H%M%S")
      sep
      (str (int (time.time)))))
