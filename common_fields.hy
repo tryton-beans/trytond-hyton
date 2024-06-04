@@ -9,6 +9,17 @@
 (defn Party [[name "Party"] #* args #** kwargs]
   (.Many2One fields "party.party" name #* args #** kwargs))
 
+
+;; Weight field creator
+(defn Weight [[name "Weight Kg"] #* args #** kwargs]
+  (.Numeric fields name #(9 3) #* args #** kwargs)
+  )
+
+;; volume field creator
+(defn Volume [[name "Volume m3"] #* args #** kwargs]
+  (.Numeric fields name #(9 3) #* args #** kwargs))
+
+
 (defn add-state-key [field key statement]
   (setv states (or field.states {})
         current-statement (get-or states key None))

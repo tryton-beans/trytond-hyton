@@ -1,3 +1,4 @@
+
 (import trytond.pool [Pool]
         trytond.modules.hyton.sugar [save]
         trytond.modules.hyton.utils [first]
