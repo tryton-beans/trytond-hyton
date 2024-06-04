@@ -8,6 +8,13 @@
   "Check if `x` is None"
   (is x None))
 
+(defn is-not-none [x]
+  "Check if `x` is None"
+  (not (is-none x)))
+
+(defn filter-none [lst]
+  (filter is-not-none lst))
+
 (defn is-empty [coll]
   "Check if `coll` is empty."
   (= 0 (len coll)))
