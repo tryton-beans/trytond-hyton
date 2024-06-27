@@ -33,6 +33,12 @@
 (defn datetime-now []
   (datetime.datetime.now))
 
+(defn datetime-at [dt h m s]
+  (.replace dt :hour h :minute m :second s))
+
+(defn datetime-tomorrow-at [h m s]
+  (.replace (plus-days (datetime-now) 1) :hour h :minute m :second s))
+
 (defn date-first-day-month [date]
   (.replace date :day 1))
 
