@@ -52,6 +52,9 @@
   (assoc kargs "limit" 1)
   (first (.search (.get (Pool) model-name) #* args #** kargs)))
 
+(defn pool-singleton [model-name]
+  ((.get (Pool) model-name) 1))
+
 ;;rec-name helpers
 (defn is-not-operator [s]
   (or (.startswith s "!") (.startswith s "not ")))
