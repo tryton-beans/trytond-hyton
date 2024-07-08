@@ -1,9 +1,10 @@
 (import hy.models [Symbol]
-        trytond.model [Index]
+        trytond.model [Index Model]
         trytond.pool [Pool]
         trytond.modules.hyton.utils [first]
         hyrule [rest]
-        cytoolz [second partition])
+        cytoolz [second partition]
+        functools [reduce])
 (require hyrule [assoc ->>])
 
 (defn default-func-name [name]
@@ -111,3 +112,18 @@
 
 (defn create-indexes-date [table-field-date]
   #{(Index table-field-date.table #(table-field-date (.Range Index)))})
+
+
+(defclass NavInFunctionFieldMixin [Model]
+
+  (defn get-in [self name]
+    (let [path (.split name "__")]
+      (reduce (fn [x y]
+                (if (is x None)
+                    None
+                    (getattr x y))) path self)))  
+  (defn [classmethod] search-in [cls name domain]
+    [(+ #((.replace name "__" "."))
+        (tuple (cut domain 1 None None)))])
+
+  )
