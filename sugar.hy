@@ -107,8 +107,7 @@
 
 (defn create-indexes-code [table-field-code]
   (let [table table-field-code.table]
-    #{(Index table #(table-field-code (.Equality Index)))
-      (Index table #(table-field-code (.Similarity Index)))}))
+    #{(Index table #(table-field-code (.Similarity Index)))}))
 
 (defn create-indexes-date [table-field-date]
   #{(Index table-field-date.table #(table-field-date (.Range Index)))})
