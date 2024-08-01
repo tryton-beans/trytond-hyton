@@ -25,13 +25,13 @@
   (setv
     closed (.Boolean fields "Closed" :readonly True))
 
-
   (defn [classmethod] __setup__ [cls]
     (.__setup__ (super))
     (setv t (.__table__ cls))
-    (.add cls._sql-indexes
+    #_(.add cls._sql-indexes
           (Index t #(t.closed (.Equality Index)))
-          ))
+          )
+    )
 
   
   (defn [classmethod] readonly-closed-setup [cls]

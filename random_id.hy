@@ -25,8 +25,7 @@
 
 (defn create-indexes-identifier [table-field]
   (let [table table-field.table]
-    #{(Index table  #(table-field (.Similarity Index)))
-      (Index table  #(table-field (.Equality Index)))})
+    #{(Index table  #(table-field (.Similarity Index)))})
   )
 
 (defn create-id [[size 8] [prefix ""]]
