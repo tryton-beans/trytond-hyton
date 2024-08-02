@@ -8,7 +8,7 @@
          hyrule [->>])
 
 
-(setv _close-readonly-statement 
+(setv _close-readonly-statement
   (Equal (Eval "closed" False) True))
 
 (defn readonly-closed-setup [class]
@@ -16,7 +16,7 @@
                          (inspect.getmembers)
                          (map second)
                          (filter (fn[m] (isinstance m Field))))]
-          (add-depends 
+          (add-depends
             (add-readonly field _close-readonly-statement)
             ["closed"])))
 
@@ -25,38 +25,28 @@
   (setv
     closed (.Boolean fields "Closed" :readonly True))
 
-  (defn [classmethod] __setup__ [cls]
-    (.__setup__ (super))
-    (setv t (.__table__ cls))
-    #_(.add cls._sql-indexes
-          (Index t #(t.closed (.Equality Index)))
-          )
-    )
-
-  
   (defn [classmethod] readonly-closed-setup [cls]
     (for [field (->> cls
                      (inspect.getmembers)
                      (map second)
                      (filter (fn[m] (isinstance m Field))))]
-      (add-depends 
+      (add-depends
         (add-readonly field _close-readonly-statement)
         ["closed"])))
-  
+
   (default-value closed False)
 
   (defn can-close [self]
     True)
-  
+
   (defn _close [self]
     (when (.can-close self)
       (setv self.closed True)
       True))
 
-  
   (defn can-open [self]
     True)
-  
+
   (defn _open [self]
     (when (.can-open self)
       (setv self.closed False)
