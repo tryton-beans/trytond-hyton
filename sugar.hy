@@ -120,7 +120,11 @@
       (reduce (fn [x y]
                 (if (is x None)
                     None
-                    (getattr x y))) path self)))  
+                    (getattr x y))) path self)))
+
+  (defn get-in-id [self name]
+    (.get-in self (+ name "__id")))
+  
   (defn [classmethod] search-in [cls name domain]
     [(+ #((.replace name "__" "."))
         (tuple (cut domain 1 None None)))])
