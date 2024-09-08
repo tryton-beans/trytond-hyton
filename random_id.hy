@@ -3,9 +3,9 @@
         functools [reduce]
         trytond.modules.hyton.utils [is-none is-empty]
         cytoolz [take]
+        hyrule [assoc]
         hy.pyops *
         random)
-(require hyrule [assoc])
 
 (defn repeatedly [func]
   "Yield result of running `func` repeatedly."

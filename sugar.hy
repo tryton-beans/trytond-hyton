@@ -2,10 +2,10 @@
         trytond.model [Index Model]
         trytond.pool [Pool]
         trytond.modules.hyton.utils [first]
-        hyrule [rest]
+        hyrule [rest assoc]
         cytoolz [second partition]
         functools [reduce])
-(require hyrule [assoc ->>])
+(require hyrule [->>])
 
 (defn default-func-name [name]
   (+ "default_" (.replace name "-" "_")))
@@ -37,6 +37,7 @@
   (map (fn[s] (.get (Pool) s)) keys))
 
 (defn pool-create [model-name #* args #** kargs]
+  
   (save ((.get (Pool) model-name) #* args #** kargs)))
 
 (defn pool-new [model-name #* args #** kargs]
