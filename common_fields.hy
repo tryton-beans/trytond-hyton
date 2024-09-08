@@ -1,7 +1,8 @@
 (import trytond.model [fields]
         trytond.pyson [Not Equal Eval Or And Bool If Get Greater]
-        trytond.modules.hyton.utils [get-or])
-(require hyrule [assoc ->])
+        trytond.modules.hyton.utils [get-or]
+        hyrule [assoc])
+(require hyrule [->])
 
 (defn Company [[name "Company"] #* args #** kwargs]
   (.Many2One fields "company.company" name #* args #** kwargs))
