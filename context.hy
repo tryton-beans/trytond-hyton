@@ -18,3 +18,6 @@
 ;; this could be in company.
 (defn context-locale []
   (context-get "locale"))
+
+(defn context-active-ids []
+  (context-get "active_ids"))
