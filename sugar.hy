@@ -36,8 +36,7 @@
 (defn pool-gets [provider keys]
   (map (fn[s] (.get (Pool) s)) keys))
 
-(defn pool-create [model-name #* args #** kargs]
-  
+(defn pool-create [model-name #* args #** kargs]  
   (save ((.get (Pool) model-name) #* args #** kargs)))
 
 (defn pool-new [model-name #* args #** kargs]
@@ -57,6 +56,8 @@
 (defn pool-singleton [model-name]
   ((.get (Pool) model-name) 1))
 
+(defn pool-browse [model-name #* args #** kargs]
+  (.browse (.get (Pool) model-name) #* args #** kargs))
 ;;rec-name helpers
 (defn is-not-operator [s]
   (or (.startswith s "!") (.startswith s "not ")))
