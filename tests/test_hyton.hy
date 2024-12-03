@@ -12,7 +12,11 @@
                                evently-divide-portions
                                c-group-by
                                is-str-empty
-                               is-str-not-empty]
+                               is-str-not-empty
+                               volume-m3-to-cms
+                               volume-cms-to-m3
+                               volume-m3-fix-long-to-cms
+                               ]
   itertools [groupby]
   trytond [pyson]
   trytond.pool [Pool]
@@ -120,30 +124,33 @@
   (defn test-evently-divide [self]
     (.assertEqual self
                   (evently-divide (Decimal "0.11") 2 (Decimal "0.01"))
-                  [(Decimal "0.06") (Decimal "0.05")]
-                  )
-
+                  [(Decimal "0.06") (Decimal "0.05")])
     (.assertEqual self
                   (evently-divide (Decimal "0.11") 3 (Decimal "0.01"))
                   [(Decimal "0.04")
                    (Decimal "0.04")
-                   (Decimal "0.03")]
-                  )
-
+                   (Decimal "0.03")])
     (.assertEqual self
                   (evently-divide (Decimal "-0.11") 3 (Decimal "0.01"))
                   [(Decimal "-0.04")
                    (Decimal "-0.04")
-                   (Decimal "-0.03")]
-                  )
-    
+                   (Decimal "-0.03")])
     (.assertEqual self
                   (evently-divide (Decimal "-0") 3 (Decimal "0.01"))
                   [(Decimal "0.00")
                    (Decimal "0.00")
-                   (Decimal "0.00")]
-                  ))
-  
+                   (Decimal "0.00")]))
+
+  (defn test-volume-to-cms [self]
+    (.assertEqual self
+                          (volume-m3-to-cms (Decimal "1"))
+                          [100 100 100])
+    (.assertEqual self
+                          (volume-m3-fix-long-to-cms (Decimal "1") (Decimal "200"))
+                          [(Decimal "200") (Decimal "70.71") (Decimal "70.71")])
+    (.assertEqual self
+                  (volume-cms-to-m3 [(Decimal "200") (Decimal "70.71") (Decimal "70.71")])
+                  1))
   
   (defn test-evently-divide-portions [self]
     (.assertEqual self

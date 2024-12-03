@@ -111,10 +111,23 @@
 
 (defn volume-m3-to-cms [volume-m3]
   (when (and (not (is volume-m3 None))
-             (>= volume-m3 0)) 
+             (>= volume-m3 0))
     (evently-divide
       (Decimal (* 300
-                 (** (float volume-m3) (/ 1 3)))) 3 (Decimal "0.01"))))
+                  (** (float volume-m3) (/ 1 3))))
+      3
+      (Decimal "0.01"))))
+
+(defn volume-m3-fix-long-to-cms [volume-m3 long-cm]
+  (when (and (not (is volume-m3 None))
+             (>= volume-m3 0))
+    (+ [long-cm]
+       (evently-divide
+         (Decimal (* 2000
+                     (** (/ (float volume-m3) (float long-cm))
+                         (/ 1 2))))
+         2
+         (Decimal "0.01")))))
 
 (defn volume-cms-to-m3 [cms]
   (let [cm3 (reduce * cms)]
