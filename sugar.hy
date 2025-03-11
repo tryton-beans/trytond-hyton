@@ -2,6 +2,7 @@
         trytond.model [Index Model]
         trytond.pool [Pool]
         trytond.modules.hyton.utils [first]
+        trytond.modules.hyton.context [context-active-ids]
         hyrule [rest assoc]
         cytoolz [second partition]
         functools [reduce])
@@ -33,10 +34,14 @@
   (.save model)
   model)
 
+(defn save-all [model-name models]
+  (.save (.get (Pool) model-name) models)
+  models)
+
 (defn pool-gets [provider keys]
   (map (fn[s] (.get (Pool) s)) keys))
 
-(defn pool-create [model-name #* args #** kargs]  
+(defn pool-create [model-name #* args #** kargs]
   (save ((.get (Pool) model-name) #* args #** kargs)))
 
 (defn pool-new [model-name #* args #** kargs]
@@ -58,6 +63,10 @@
 
 (defn pool-browse [model-name #* args #** kargs]
   (.browse (.get (Pool) model-name) #* args #** kargs))
+
+(defn pool-browse-active-ids [model-name]
+   (pool-browse model-name (context-active-ids)))
+
 ;;rec-name helpers
 (defn is-not-operator [s]
   (or (.startswith s "!") (.startswith s "not ")))
