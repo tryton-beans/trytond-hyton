@@ -21,3 +21,6 @@
 
 (defn context-active-ids []
   (context-get "active_ids"))
+
+(defn context-date-format []
+  (.get (context-locale) "date"))
