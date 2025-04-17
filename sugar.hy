@@ -34,8 +34,9 @@
   (.save model)
   model)
 
-(defn save-all [model-name models]
-  (.save (.get (Pool) model-name) models)
+(defn save-all [models]
+  (when models
+    (.save (.get (Pool) (. (get models 0) __name__)) models))
   models)
 
 (defn pool-gets [provider keys]
