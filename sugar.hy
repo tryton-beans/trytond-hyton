@@ -1,5 +1,5 @@
 (import hy.models [Symbol]
-        trytond.model [Index Model]
+        trytond.model [Index Model fields]
         trytond.pool [Pool]
         trytond.modules.hyton.utils [first]
         trytond.modules.hyton.context [context-active-ids]
@@ -141,4 +141,11 @@
     [(+ #((.replace name "__" "."))
         (tuple (cut domain 1 None None)))])
 
+  (defn [staticmethod] nav-in-function-field [field]
+    (.Function fields field "get_in" :searcher "search_in"))
+
+  (defn [staticmethod] nav-in-function-field-m2o [field]
+    (.Function fields field "get_in_id" :searcher "search_in"))
+
   )
+
