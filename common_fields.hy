@@ -50,9 +50,10 @@
 
 (defn invisible-no-company [field]
   (-> field
-      (add-invisible (Not (Equal (Eval "company")
-                                      (Get (Eval "context" {}) "company" "0")
-                                      )))
+      (add-invisible (Not (And (Bool (Eval "company"))
+                            (Equal (Eval "company")
+                                   (Get (Eval "context" {}) "company" "0")
+                                   ))))
       (add-depends ["company"])))
 
 (defn immutable [field]
