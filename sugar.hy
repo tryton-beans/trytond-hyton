@@ -66,7 +66,9 @@
   (.browse (.get (Pool) model-name) #* args #** kargs))
 
 (defn pool-browse-active-ids [model-name]
-   (pool-browse model-name (context-active-ids)))
+  (let [ids (context-active-ids)]
+    (when ids
+      (pool-browse model-name ids))))
 
 ;;rec-name helpers
 (defn is-not-operator [s]
