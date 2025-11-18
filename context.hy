@@ -23,4 +23,5 @@
   (context-get "active_ids"))
 
 (defn context-date-format []
-  (.get (context-locale) "date"))
+  (let [locale (context-locale)]
+    (if locale (.get locale "date" "%Y-%m-%d") "%Y-%m-%d")))
