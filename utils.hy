@@ -138,3 +138,14 @@
           cm3)
       (Decimal "0.001")
       decimal.ROUND_HALF_UP)))
+
+(defn eliminate-duplicate-by-id [models]
+  (if models
+      (reduce (fn [acc m]
+                (when (and m
+                           (not (some
+                                  (fn [x] (= x.id m.id)) acc)))
+                  (.append acc m))
+                acc)
+              models [])
+      models))
