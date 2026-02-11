@@ -55,6 +55,10 @@
 (defn pool-search [model-name #* args #** kargs]
   (.search (.get (Pool) model-name) #* args #** kargs))
 
+(defn pool-delete [model-name #* args #** kargs]
+  (.delete (.get (Pool) model-name)
+    (.search (.get (Pool) model-name) #* args #** kargs)))
+
 (defn pool-search-one [model-name #* args #** kargs]
   (assoc kargs "limit" 1)
   (first (.search (.get (Pool) model-name) #* args #** kargs)))
