@@ -12,6 +12,7 @@
   "Check if `x` is None"
   (not (is-none x)))
 
+
 (defn filter-none [lst]
   (filter is-not-none lst))
 
@@ -27,15 +28,12 @@
   "Return the first logical true value of applying `pred` in `coll`, else None."
   (first (filter None (map pred coll))))
 
-
 (defn quantize-euros[d]
   (when (not (is-none d))
     (.quantize d (decimal.Decimal "0.01") decimal.ROUND_HALF_UP)))
 
 (defn calculate-percentage [percentage value]
   (/ (* value percentage) (Decimal "100")))
-
-(defn is-not-none [x] (not (is-none x)))
 
 (defn get-or [map key value]
   (try (get map key) (except [KeyError] value)))
