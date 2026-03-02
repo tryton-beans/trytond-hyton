@@ -42,7 +42,7 @@ def add_depends(field, depends):
     return field
 
 
-def readonly_no_company(field):v
+def readonly_no_company(field):
     return add_depends(
         add_readonly(
             field,
