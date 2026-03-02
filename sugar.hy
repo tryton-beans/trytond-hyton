@@ -1,12 +1,9 @@
 (import hy.models [Symbol]
-        trytond.model [Index Model fields]
-        trytond.pool [Pool]
+        trytond.model [Model fields]
+        trytond.modules.hyton [sugar-runtime]
         trytond.modules.hyton.utils [first]
-        trytond.modules.hyton.context [context-active-ids]
-        hyrule [rest assoc]
         cytoolz [second partition]
         functools [reduce])
-(require hyrule [->>])
 
 (defn default-func-name [name]
   (+ "default_" (.replace name "-" "_")))
@@ -26,68 +23,55 @@
   `(defn [classmethod] ~(Symbol (default-func-name (str field))) [cls #* args]
          (~function #* args)))
 
-;; Pool realated
+;; Runtime helpers delegated to sugar_runtime.py
 (defn gets [provider keys]
-  (map (fn[s] (.get provider s)) keys))
+  (.gets sugar-runtime provider keys))
 
 (defn save [model]
-  (.save model)
-  model)
+  (.save sugar-runtime model))
 
 (defn save-all [models]
-  (when models
-    (.save (.get (Pool) (. (get models 0) __name__)) models))
-  models)
+  (.save_all sugar-runtime models))
 
 (defn pool-gets [provider keys]
-  (map (fn[s] (.get (Pool) s)) keys))
+  (.pool_gets sugar-runtime provider keys))
 
 (defn pool-create [model-name #* args #** kargs]
-  (save ((.get (Pool) model-name) #* args #** kargs)))
+  (.pool_create sugar-runtime model-name #* args #** kargs))
 
 (defn pool-new [model-name #* args #** kargs]
-  ((.get (Pool) model-name) #* args #** kargs))
+  (.pool_new sugar-runtime model-name #* args #** kargs))
 
 (defn pool-load [model-name id]
-  ((.get (Pool) model-name) id)
-  )
+  (.pool_load sugar-runtime model-name id))
 
 (defn pool-search [model-name #* args #** kargs]
-  (.search (.get (Pool) model-name) #* args #** kargs))
+  (.pool_search sugar-runtime model-name #* args #** kargs))
 
 (defn pool-delete [model-name #* args #** kargs]
-  (.delete (.get (Pool) model-name)
-    (.search (.get (Pool) model-name) #* args #** kargs)))
+  (.pool_delete sugar-runtime model-name #* args #** kargs))
 
 (defn pool-search-one [model-name #* args #** kargs]
-  (assoc kargs "limit" 1)
-  (first (.search (.get (Pool) model-name) #* args #** kargs)))
+  (.pool_search_one sugar-runtime model-name #* args #** kargs))
 
 (defn pool-singleton [model-name]
-  ((.get (Pool) model-name) 1))
+  (.pool_singleton sugar-runtime model-name))
 
 (defn pool-browse [model-name #* args #** kargs]
-  (.browse (.get (Pool) model-name) #* args #** kargs))
+  (.pool_browse sugar-runtime model-name #* args #** kargs))
 
 (defn pool-browse-active-ids [model-name]
-  (let [ids (context-active-ids)]
-    (when ids
-      (pool-browse model-name ids))))
+  (.pool_browse_active_ids sugar-runtime model-name))
 
 ;;rec-name helpers
 (defn is-not-operator [s]
-  (or (.startswith s "!") (.startswith s "not ")))
+  (.is_not_operator sugar-runtime s))
 
 (defn rec-name-and-or [s-operator]
-  (if (is-not-operator s-operator) ["AND"] ["OR"]))
+  (.rec_name_and_or sugar-runtime s-operator))
 
 (defn rec-name-search-fields [fields clauses]
-  (->>
-    fields
-    (map (fn [field]
-           (tuple (+ [field] (list (rest clauses))))))
-    list
-    (+ (rec-name-and-or (second clauses)))))
+  (.rec_name_search_fields sugar-runtime fields clauses))
 
 ;; this macro requires rec-name-search-fields
 (defmacro search-rec-name-fields [fields]
@@ -124,12 +108,10 @@
      (.write (super) records values #* args)))
 
 (defn create-indexes-code [table-field-code]
-  (let [table table-field-code.table]
-    #{(Index table #(table-field-code (.Similarity Index)))}))
+  (.create_indexes_code sugar-runtime table-field-code))
 
 (defn create-indexes-date [table-field-date]
-  #{(Index table-field-date.table #(table-field-date (.Range Index)))})
-
+  (.create_indexes_date sugar-runtime table-field-date))
 
 (defclass NavInFunctionFieldMixin [Model]
 
@@ -154,4 +136,3 @@
     (.Function fields field "get_in_id" :searcher "search_in"))
 
   )
-
