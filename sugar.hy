@@ -1,11 +1,12 @@
-(import hy.models [Symbol]
+(import inspect
+        hy.models [Symbol]
         trytond.model [Index Model fields]
         trytond.pool [Pool]
         trytond.modules.hyton.utils [first]
         trytond.modules.hyton.context [context-active-ids]
         hyrule [rest assoc]
         cytoolz [second partition]
-        functools [reduce])
+        functools [reduce partial])
 (require hyrule [->>])
 
 (defn default-func-name [name]
@@ -133,6 +134,16 @@
 
 (defclass NavInFunctionFieldMixin [Model]
 
+  (defn [classmethod] __setup__ [cls]
+    (.__setup__ (super NavInFunctionFieldMixin cls))
+    (for [[name field] (inspect.getmembers cls)]
+      (when (and (isinstance field fields.Function)
+                 (in field.getter ["get_in" "get_in_id"])
+                 (in "__" name)
+                 (not (hasattr cls (+ "order_" name))))
+        (setattr cls (+ "order_" name)
+                 (classmethod (partial order-nav-in-field name))))))
+
   (defn get-in [self name]
     (let [path (.split name "__")]
       (reduce (fn [x y]
@@ -154,4 +165,9 @@
     (.Function fields field "get_in_id" :searcher "search_in"))
 
   )
+
+(defn order-nav-in-field [field-name cls tables]
+  (let [path (.replace field-name "__" ".")
+        root (get (.split path ".") 0)]
+    (.convert-order (get cls._fields root) path tables cls)))
 
